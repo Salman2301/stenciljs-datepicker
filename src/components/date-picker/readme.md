@@ -25,7 +25,7 @@
 
 ### Depends on
 
-- [date-head](../date-head.tsx)
+- [date-head](../date-head)
 - [date-body](../date-body)
 
 ### Graph

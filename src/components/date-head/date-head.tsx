@@ -7,7 +7,6 @@ import { getRange } from "../../utils/all";
   styleUrl: 'date-head.css',
   shadow: true
 })
-
 export class DatePicker {
   
   months = [ "January", "February", "March", "April", "May", "June",
