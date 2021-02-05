@@ -1,0 +1,70 @@
+* {
+  font-family: Roboto, sans-serif;
+  user-select: none;
+}
+
+.head {
+  width: 301px;
+  height: 50px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: #3d3d3d;
+  border-radius: 8px 8px 0px 0px;
+  margin-top: -5px;
+}
+
+.prev {
+  position: relative;
+  width: 18px;
+  height: 100%;
+  cursor: pointer;
+
+  padding-right: 30px;
+  
+  transform: rotate(-180deg);
+
+}
+
+svg {
+  width: 100%;
+  height: 100%;
+}
+
+.next {
+  width: 18px;
+  height: 100%;
+  cursor: pointer;
+
+  padding-right: 30px;
+}
+
+select{
+  height: 24px;
+}
+.btnMonths {
+  width: 101px;
+}
+
+.dropYears {
+ width: 65px; 
+}
+
+.drop-selected {
+  font-weight: 600;
+}
+
+select::-webkit-scrollbar {
+  width: 0.5em;
+}
+ 
+select::-webkit-scrollbar-thumb {
+  background-color: #505050;
+  outline: 1px solid slategrey;
+}
+
+.decade{
+  margin-top: 10px;
+}

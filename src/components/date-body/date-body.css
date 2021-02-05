@@ -1,0 +1,79 @@
+* {
+  font-family: Roboto, sans-serif;
+}
+
+.dates {
+  margin: 0px 10px;
+  user-select: none;
+}
+
+.date {
+  margin: 3px;
+  padding: 5px;
+  margin-bottom: 7px;
+  text-align: center;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  border-radius: 50%;
+  cursor: pointer;
+
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 1.3rem;
+  color: #ccc;
+}
+
+.date:hover {
+  background-color: #505050;
+  color: white;
+}
+
+.currMon {
+  color: #505050;
+  font-weight: 400;
+}
+
+.date-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.weeks {
+  display: flex;
+  justify-content: space-evenly;
+
+  font-size: 14px;
+  color: #505050;
+  font-weight:500;
+
+  
+  margin: 0px 10px;
+  margin-top: 22px;
+  padding: 5px 0px;
+
+  user-select: none;
+}
+
+.divider {
+  display: block;
+  width:255px;
+  height: 0.5px;
+  border-bottom: 0.5px solid #ccc;
+  margin-left: 22px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+
+}
+
+.week {
+  width: 35px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  font-style: normal;
+  color: #505050;
+  line-height: 14px;
+}

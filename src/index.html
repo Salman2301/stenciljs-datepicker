@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Date Picker</title>
+
+    <script type="module" src="/build/date-time-picker.esm.js"></script>
+    <script nomodule src="/build/date-time-picker.js"></script>
+  </head>
+  <body>
+    <h1> Test </h1>
+    <date-picker show="true"></date-picker>
+    <h1> Test </h1>
+
+    <script defer>
+      const datePic = document.querySelector('date-picker');
+      
+      datePic.addEventListener('ready', handleDateReady);
+      datePic.addEventListener('dateSel', handleDateSel);
+      
+      function handleDateReady(e) {
+        console.log("date-picker ready : ", e.detail);
+      }
+      function handleDateSel(e) {
+        console.log("date selected : " ,e.detail);
+      }
+
+    </script>
+  </body>
+</html>
