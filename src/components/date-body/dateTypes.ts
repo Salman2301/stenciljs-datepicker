@@ -3,7 +3,8 @@ interface DateObj {
   date: Date;
   dateStr: number;
   currMon: number,
-  currYear: number
+  currYear: number,
+  classStr: string
 }
 
-export type Dates = DateObj[][];
+export type ArrayOfDates = DateObj[][];

@@ -7,11 +7,9 @@
 
 ## Properties
 
-| Property | Attribute | Description | Type          | Default       |
-| -------- | --------- | ----------- | ------------- | ------------- |
-| `dates`  | --        |             | `DateObj[][]` | `[]`          |
-| `month`  | `month`   |             | `number`      | `state.month` |
-| `year`   | `year`    |             | `number`      | `state.year`  |
+| Property | Attribute | Description | Type          | Default |
+| -------- | --------- | ----------- | ------------- | ------- |
+| `dates`  | --        |             | `DateObj[][]` | `[]`    |
 
 
 ## Events

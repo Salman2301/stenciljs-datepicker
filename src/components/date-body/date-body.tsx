@@ -1,6 +1,7 @@
-import { Component, Prop,Event, EventEmitter, h } from '@stencil/core';
-import { Dates } from "./dateTypes";
+import { Component, Prop, Event, State, EventEmitter, h } from '@stencil/core';
+import { ArrayOfDates } from "./dateTypes";
 import store, { state } from "../../store";
+import { getStartEndDate } from "../../utils/all";
 
 @Component({
   tag: 'date-body',
@@ -12,15 +13,16 @@ export class DatePicker {
   @Event() dateSel: EventEmitter<Date>;
 
   @Prop({ mutable: true })
-  dates:Dates = [];
-  
-  @Prop()
+  dates:ArrayOfDates = [];
+
+  @State()
+  disableDates: Date[] = state.disableDates;
+
 	month:number = state.month;
-  @Prop()
   year:number = state.year;
   
   buildDate() {
-		let buildedDates:Dates = [];
+		let buildedDates:ArrayOfDates = [];
 
 		let startDate:Date = this.getStartDate();
 		
@@ -34,21 +36,33 @@ export class DatePicker {
           date: new Date(startDate),
           dateStr: startDate.getDate(),
           currMon,
-          currYear
+          currYear,
+          classStr: `date ${this.getClassCurrMon(currMon)}`
         };
 
 				startDate.setDate(startDate.getDate() + 1);
 			}
 		}
     this.dates = buildedDates;
+  } 
+
+  updateDisableDate() {
+    for( const i in this.dates) {
+      for( const j in this.dates[i] ) {
+        const { date } = this.dates[i][j];
+        this.dates[i][j].classStr += `  ${this.isDisableDate(date)}`;
+      }
+    }
   }
 
   componentWillLoad() {
+    console.log(this.disableDates);
     this.buildDate();
 
     store.onChange( "month" , ()=>{
       this.month = state.month;
       this.buildDate();
+      this.updateDisableDate();
     });
     
     store.onChange( "year" , ()=>{
@@ -56,10 +70,26 @@ export class DatePicker {
       this.buildDate();
     });
 
+    store.onChange("disableDates", () => {
+      this.disableDates = state.disableDates;
+      this.updateDisableDate();
+    });
+
   }
 
-  handleDateSel(date) {
+  handleDateSel(date, e:any) {
+    const [ el ]: [HTMLElement] = e.path;
+    if(el.classList.contains("disable")) return;
     this.dateSel.emit(date);
+  }
+
+  isDisableDate(date: Date): "disable" | "" {
+    date = new Date(date);
+    for( let currDate of this.disableDates) {
+      const { startDate, endDate } = getStartEndDate(currDate);
+      if( date >= startDate && date < endDate ) return "disable"
+    }
+    return "";
   }
 
   getStartDate(y=this.year, m=this.month) {
@@ -70,6 +100,10 @@ export class DatePicker {
     // TODO add plus one to set the day of the week as Monday.
     currDate.setDate(currDate.getDate() - toMinus);
 		return currDate;
+  }
+
+  getClassCurrMon(currMon) {
+    return currMon===this.month?"currMon": "";
   }
   
   weeks = ["Sun", "Mon","Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -87,10 +121,10 @@ export class DatePicker {
           <div 
           class="date-row"
           >
-            {row.map(({dateStr, date, currMon})=>(
+            {row.map(({dateStr, date, currMon, classStr })=>(
               <div
-              onClick={()=>this.handleDateSel(date)}
-              class={`date ${currMon===this.month?"currMon": ""}`}
+              onClick={(e)=>this.handleDateSel(date, e)}
+              class={classStr}
               >
              {dateStr}</div>
             ))}

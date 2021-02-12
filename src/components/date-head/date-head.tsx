@@ -1,5 +1,5 @@
-import { Component, h } from '@stencil/core';
-import { state } from "../../store";
+import { Component, State, h } from '@stencil/core';
+import store, { state } from "../../store";
 import { getRange } from "../../utils/all";
 
 @Component({
@@ -9,10 +9,16 @@ import { getRange } from "../../utils/all";
 })
 export class DatePicker {
   
-  months = [ "January", "February", "March", "April", "May", "June",
+  months:string[] = [ "January", "February", "March", "April", "May", "June",
 "July", "August", "September", "October", "November", "December" ];
 
-  years = getRange(1970, 2050);
+  years:number[] = getRange(1970, 2050);
+  
+  @State()
+  month: number = state.month;
+
+  @State()
+  year: number = state.year;
 
   handleMonthSel(e) {
     state.month = +e.target.value;
@@ -40,8 +46,22 @@ export class DatePicker {
     }
   }
 
-  svgArrow() {
-    return <svg version="1.1" id="Capa_1" x="0px" y="0px"
+  componentWillLoad() {
+    // BUG: using state.month or state.year in JSX below
+    // does not render the changes in Wix site
+    // need to use @State to re-render the component on change
+    store.onChange( "month" , ()=>{
+      this.month = state.month;
+    });
+
+    store.onChange( "year" , ()=>{
+      this.year = state.year;
+    });
+
+  }
+
+  renderSvgArrow() {
+    return <svg version="1.1" x="0px" y="0px"
       viewBox="0 0 512.002 512.002" style={{"enable-background":"new 0 0 512.002 512.002"}} >
         <g>
           <g>
@@ -58,8 +78,8 @@ export class DatePicker {
     return <select onInput={this.handleMonthSel}>
       {this.months.map((month, index) =>
         <option value={index}
-        selected={index===state.month}
-        class={`${index===state.month?"drop-selected": ""}`}
+        selected={index===this.month}
+        class={`${index===this.month?"drop-selected": ""}`}
         >{month}</option>
       )}
     </select>
@@ -69,8 +89,8 @@ export class DatePicker {
     return <select onInput={this.handleYearSel}>
       {this.years.map((year, index) => 
         <option value={index}
-          selected={year===state.year}
-          class={`${year===state.year?"drop-selected": ""}`}
+          selected={year===this.year}
+          class={`${year===this.year?"drop-selected": ""}`}
           >
             {year}
 
@@ -85,9 +105,8 @@ export class DatePicker {
   render() {
     return <div class="head">
       <div class="prev" onClick={this.handleDecMonth}>
-        {this.svgArrow()}
+        {this.renderSvgArrow()}
       </div>
-      
       <div class="dropMonths">
         {this.renderMonths()}
       </div>
@@ -96,7 +115,7 @@ export class DatePicker {
       </div>
       
       <div class="next" onClick={this.handleIncMonth}>
-        {this.svgArrow()}
+        {this.renderSvgArrow()}
       </div>
     </div>
   }

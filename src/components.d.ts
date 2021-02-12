@@ -5,16 +5,15 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Dates } from "./components/date-body/dateTypes";
+import { ArrayOfDates } from "./components/date-body/dateTypes";
 export namespace Components {
     interface DateBody {
-        "dates": Dates;
-        "month": number;
-        "year": number;
+        "dates": ArrayOfDates;
     }
     interface DateHead {
     }
     interface DatePicker {
+        "disableDates": string;
         "height": number;
         "show": "true"|"false";
         "width": number;
@@ -47,14 +46,13 @@ declare global {
 }
 declare namespace LocalJSX {
     interface DateBody {
-        "dates"?: Dates;
-        "month"?: number;
+        "dates"?: ArrayOfDates;
         "onDateSel"?: (event: CustomEvent<Date>) => void;
-        "year"?: number;
     }
     interface DateHead {
     }
     interface DatePicker {
+        "disableDates"?: string;
         "height"?: number;
         "onReady"?: (event: CustomEvent<true>) => void;
         "show"?: "true"|"false";

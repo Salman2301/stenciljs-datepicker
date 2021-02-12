@@ -10,7 +10,7 @@
   </head>
   <body>
     <h1> Test </h1>
-    <date-picker show="true"></date-picker>
+    <date-picker show="true" ></date-picker>
     <h1> Test </h1>
 
     <script defer>
@@ -25,6 +25,11 @@
       function handleDateSel(e) {
         console.log("date selected : " ,e.detail);
       }
+
+      //disable-dates='["2021-02-11T16:13:11.987Z"'
+
+      const disableDate = JSON.stringify([new Date(), new Date(2021,1, 25), new Date(2021,0, 23)])
+      datePic.setAttribute("disable-dates", disableDate)
 
     </script>
   </body>
