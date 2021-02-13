@@ -13,7 +13,9 @@ export namespace Components {
     interface DateHead {
     }
     interface DatePicker {
+        "disableByWeek": string;
         "disableDates": string;
+        "enableDates": string;
         "height": number;
         "show": "true"|"false";
         "width": number;
@@ -52,7 +54,9 @@ declare namespace LocalJSX {
     interface DateHead {
     }
     interface DatePicker {
+        "disableByWeek"?: string;
         "disableDates"?: string;
+        "enableDates"?: string;
         "height"?: number;
         "onReady"?: (event: CustomEvent<true>) => void;
         "show"?: "true"|"false";

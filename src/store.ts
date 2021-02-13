@@ -4,7 +4,9 @@ const store = createStore({
   month:1,
   year: 2021,
 
-  disableDates: []
+  disableDates: [],
+  disableByWeek: [],
+  enableDates: []
 });
 
 

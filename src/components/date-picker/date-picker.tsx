@@ -1,5 +1,5 @@
 import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
-import store, { state } from '../../store';
+import store from '../../store';
 
 
 @Component({
@@ -12,6 +12,8 @@ export class DatePicker {
   @Event() ready: EventEmitter<true>;
 
   @Prop() disableDates: string = "";
+  @Prop() disableByWeek: string = "";
+  @Prop() enableDates: string = "";
   @Prop() show: "true"|"false" = "true";
   @Prop() width: number = 300;
   @Prop() height: number = 355;
@@ -28,6 +30,8 @@ export class DatePicker {
 
   componentDidLoad() {
     store.set("disableDates", this.formatToDate(this.disableDates) );
+    store.set("enableDates", this.formatToDate(this.enableDates) );
+    store.set("disableByWeek", this.formatToArray(this.disableByWeek))
     this.ready.emit(true);
   }
 
@@ -39,8 +43,19 @@ export class DatePicker {
     }
     catch(e) {
       console.error("failed to parse JSON")
+      return [];
     }
 
+  }
+
+  formatToArray(JSONString: string) {
+    try {
+      return JSON.parse(JSONString);
+    }
+    catch(e) {
+      console.error("failed to parse JSON")
+      return [];
+    }
   }
 
   render() {

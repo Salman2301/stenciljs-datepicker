@@ -6,8 +6,9 @@
 - [ ] Support timezone
 
 - [ ] Can change the start day from Sun to Mon
-- [ ] Disable, Enable, Enable Only Date ( Disable the rest of the date)
-- [ ] Disable by Weeks
+- [x] Disable, Enable
+- [ ] Enable Only Date ( Disable the rest of the date)
+- [x] Disable by Weeks
 
 - [ ] Select Timer
 - [ ] Disable, Enable

@@ -31,6 +31,12 @@
       const disableDate = JSON.stringify([new Date(), new Date(2021,1, 25), new Date(2021,0, 23)])
       datePic.setAttribute("disable-dates", disableDate)
 
+      const enableDate = JSON.stringify([new Date(2021,1, 25), new Date(2021, 1, 7 )])
+      datePic.setAttribute("enable-dates", enableDate)
+
+      const disableByWeek = JSON.stringify([0, 1]);
+      datePic.setAttribute("disable-by-week", disableByWeek)
+
     </script>
   </body>
 </html>

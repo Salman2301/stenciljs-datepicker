@@ -18,9 +18,18 @@ export class DatePicker {
   @State()
   disableDates: Date[] = state.disableDates;
 
+  @State()
+  enableDates: Date[] = state.enableDates;
+
+  @State()
+  disableByWeek: number[] = state.disableByWeek;
+
 	month:number = state.month;
+
   year:number = state.year;
   
+  weeks = ["Sun", "Mon","Tue", "Wed", "Thu", "Fri", "Sat"]
+
   buildDate() {
 		let buildedDates:ArrayOfDates = [];
 
@@ -35,6 +44,7 @@ export class DatePicker {
         buildedDates[i][j] = {
           date: new Date(startDate),
           dateStr: startDate.getDate(),
+          currWeek: this.getCurrWeek(startDate),
           currMon,
           currYear,
           classStr: `date ${this.getClassCurrMon(currMon)}`
@@ -49,14 +59,26 @@ export class DatePicker {
   updateDisableDate() {
     for( const i in this.dates) {
       for( const j in this.dates[i] ) {
-        const { date } = this.dates[i][j];
-        this.dates[i][j].classStr += `  ${this.isDisableDate(date)}`;
+        const { date, currWeek, classStr } = this.dates[i][j];
+        // TODO: filter the disableDates with enableDates
+        const disableDate = this.dateInRange(date, this.disableDates); 
+        const enableDate = this.dateInRange(date, this.enableDates);
+        const disableWeek = this.disableByWeek.includes(currWeek);
+        
+        let isDisable = disableDate || disableWeek;
+
+        if (enableDate) isDisable = false;
+
+        if( isDisable ) {
+          this.dates[i][j].classStr += ` disable`;
+        } else {
+          this.dates[i][j].classStr = classStr.replace(/ disable/ , "")
+        }
       }
     }
   }
 
   componentWillLoad() {
-    console.log(this.disableDates);
     this.buildDate();
 
     store.onChange( "month" , ()=>{
@@ -75,6 +97,15 @@ export class DatePicker {
       this.updateDisableDate();
     });
 
+    store.onChange("disableByWeek", ()=> {
+      this.disableByWeek = state.disableByWeek;
+      this.updateDisableDate();
+    });
+
+    store.onChange("enableDates", () => {
+      this.enableDates = state.enableDates;
+      this.updateDisableDate();
+    });
   }
 
   handleDateSel(date, e:any) {
@@ -83,30 +114,31 @@ export class DatePicker {
     this.dateSel.emit(date);
   }
 
-  isDisableDate(date: Date): "disable" | "" {
+  dateInRange(date: Date, range: Date[]): Boolean {
     date = new Date(date);
-    for( let currDate of this.disableDates) {
+    for( let currDate of range ) {
       const { startDate, endDate } = getStartEndDate(currDate);
-      if( date >= startDate && date < endDate ) return "disable"
+      if( date >= startDate && date < endDate ) return true;
     }
-    return "";
+    return false;
   }
 
   getStartDate(y=this.year, m=this.month) {
-		let weeks = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri","Sat" ]
 		let currDate =  new Date(y, m, 1, 0, 0, 0); 
-    let currWeek =  currDate.toLocaleString("en-US", {weekday:"short"});
-    let toMinus = weeks.findIndex(e=>e===currWeek);
+    const currWeek = this.getCurrWeek(currDate);
     // TODO add plus one to set the day of the week as Monday.
-    currDate.setDate(currDate.getDate() - toMinus);
+    currDate.setDate(currDate.getDate() - currWeek);
 		return currDate;
+  }
+
+  getCurrWeek(date: Date): number {
+    let currWeek =  date.toLocaleString("en-US", {weekday:"short"});
+    return this.weeks.findIndex(e=>e===currWeek);
   }
 
   getClassCurrMon(currMon) {
     return currMon===this.month?"currMon": "";
   }
-  
-  weeks = ["Sun", "Mon","Tue", "Wed", "Thu", "Fri", "Sat"]
 
   render() {
     return <div class="body">
@@ -121,10 +153,10 @@ export class DatePicker {
           <div 
           class="date-row"
           >
-            {row.map(({dateStr, date, currMon, classStr })=>(
+            {row.map(({dateStr, date, classStr })=>(
               <div
-              onClick={(e)=>this.handleDateSel(date, e)}
-              class={classStr}
+                onClick={(e)=>this.handleDateSel(date, e)}
+                class={classStr}
               >
              {dateStr}</div>
             ))}
