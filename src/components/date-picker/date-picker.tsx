@@ -12,6 +12,7 @@ export class DatePicker {
   @Event() ready: EventEmitter<true>;
 
   @Prop() disableDates: string = "";
+  @Prop() enableOnlyDates: string = "";
   @Prop() disableByWeek: string = "";
   @Prop() enableDates: string = "";
   @Prop() show: "true"|"false" = "true";
@@ -30,6 +31,7 @@ export class DatePicker {
 
   componentDidLoad() {
     store.set("disableDates", this.formatToDate(this.disableDates) );
+    store.set("enableOnlyDates", this.formatToDate(this.enableOnlyDates))
     store.set("enableDates", this.formatToDate(this.enableDates) );
     store.set("disableByWeek", this.formatToArray(this.disableByWeek))
     this.ready.emit(true);
@@ -37,6 +39,7 @@ export class DatePicker {
 
   formatToDate(JSONString: string) {
     try {
+      if( JSONString === "" ) return [];
       let arr = JSON.parse(JSONString);
       arr = arr.map(e=>new Date(e) );
       return arr;
@@ -50,6 +53,7 @@ export class DatePicker {
 
   formatToArray(JSONString: string) {
     try {
+      if(JSONString === "" ) return [];
       return JSON.parse(JSONString);
     }
     catch(e) {

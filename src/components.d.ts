@@ -16,6 +16,7 @@ export namespace Components {
         "disableByWeek": string;
         "disableDates": string;
         "enableDates": string;
+        "enableOnlyDates": string;
         "height": number;
         "show": "true"|"false";
         "width": number;
@@ -57,6 +58,7 @@ declare namespace LocalJSX {
         "disableByWeek"?: string;
         "disableDates"?: string;
         "enableDates"?: string;
+        "enableOnlyDates"?: string;
         "height"?: number;
         "onReady"?: (event: CustomEvent<true>) => void;
         "show"?: "true"|"false";

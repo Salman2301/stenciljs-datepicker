@@ -22,6 +22,9 @@ export class DatePicker {
   enableDates: Date[] = state.enableDates;
 
   @State()
+  enableOnlyDates: Date[] = state.enableOnlyDates;
+
+  @State()
   disableByWeek: number[] = state.disableByWeek;
 
 	month:number = state.month;
@@ -69,11 +72,17 @@ export class DatePicker {
 
         if (enableDate) isDisable = false;
 
+        if( this.enableOnlyDates.length > 0 ) {
+          const enableOnly = this.dateInRange(date, this.enableOnlyDates);
+          isDisable = !enableOnly;
+        }
+
         if( isDisable ) {
           this.dates[i][j].classStr += ` disable`;
         } else {
           this.dates[i][j].classStr = classStr.replace(/ disable/ , "")
         }
+
       }
     }
   }
@@ -90,10 +99,16 @@ export class DatePicker {
     store.onChange( "year" , ()=>{
       this.year = state.year;
       this.buildDate();
+      this.updateDisableDate();
     });
 
     store.onChange("disableDates", () => {
       this.disableDates = state.disableDates;
+      this.updateDisableDate();
+    });
+
+    store.onChange("enableOnlyDates", () => {
+      this.enableOnlyDates = state.enableOnlyDates;
       this.updateDisableDate();
     });
 

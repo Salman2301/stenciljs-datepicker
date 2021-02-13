@@ -7,7 +7,7 @@
 
 - [ ] Can change the start day from Sun to Mon
 - [x] Disable, Enable
-- [ ] Enable Only Date ( Disable the rest of the date)
+- [x] Enable Only Date ( Disable the rest of the date)
 - [x] Disable by Weeks
 
 - [ ] Select Timer
