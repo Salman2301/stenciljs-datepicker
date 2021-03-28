@@ -19,7 +19,7 @@
 
 - [ ] Support Custom Langs
 
-# Planning to rebuid using sveltejs
+# Planning to rebuild using sveltejs
 1. The Output Bundle size is too Big for Wix
 2. Need to use babel in Production? Can't find better solution without using Babel but i believe there should be one
 3. Need to use `state` for each component cause using State from a `store.ts` works in dev mode but not in Wix site for some reason.
